@@ -69,6 +69,7 @@ class TaskList:
         else:
             return False
 
+
     def clear(self):
         """Clears all tasks from the list,
         removing them from the database as well."""
@@ -134,18 +135,18 @@ def submit():
 
 
 def delete():
-    """Remove a task from the todo-list"""
-    t = input.get()
-    if t == "":
-        return
-    r = tasks.remove(t)
-    if not r:
-        display("Task not in list")
+        """Remove a task from the todo-list."""
+        try:
+            selected_task_index = list.curselection()[0]
+            selected_task = list.get(selected_task_index)
+            r = tasks.remove(selected_task)
+            if not r:
+                display("Task not in list")
 
-    list.delete(0, "end")
-    for task in tasks.get_tasks():
-        list.insert("end", task)
-    input.delete(0, "end")
+            list.delete(selected_task_index)
+            input.delete(0, "end")
+        except IndexError:
+            display("No task selected")
 
 
 def clear_list():
